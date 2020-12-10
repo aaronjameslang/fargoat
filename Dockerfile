@@ -1,6 +1,5 @@
 FROM python:2
 
-COPY ./python ./
 RUN pip install flask
-
+COPY ./python ./
 CMD ./server.py

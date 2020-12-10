@@ -14,6 +14,7 @@ def home():
 
 @app.route('/message', methods=['GET'])
 def message():
-    return func.get_message('Apollo')
+    name = flask.request.args.get('name')
+    return func.get_message(name)
 
 app.run(host='0.0.0.0')
