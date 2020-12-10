@@ -16,4 +16,4 @@ def home():
 def message():
     return func.get_message('Apollo')
 
-app.run()
+app.run(host='0.0.0.0')
