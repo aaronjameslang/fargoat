@@ -13,3 +13,6 @@ docker-push:
 		268897920616.dkr.ecr.ca-central-1.amazonaws.com/fargoat-repo0:latest
 	docker push \
 		268897920616.dkr.ecr.ca-central-1.amazonaws.com/fargoat-repo0:latest
+
+deploy:
+	serverless deploy --stage dev

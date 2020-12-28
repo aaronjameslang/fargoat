@@ -1,0 +1,32 @@
+service: fargoat
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+
+  stage: ${opt:stage} # lcl/dev/stg/prd
+  region: ca-central-1
+
+resources:
+  Resources:
+    vpc0:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: 192.168.0.0/24
+        Tags:
+          - Key: Name
+            Value: ${self:service}-${self:provider.stage}-vpc0
+          - Key: project
+            Value: ${self:service}
+    cluster0:
+      Type: AWS::ECS::Cluster
+      Properties:
+        CapacityProviders: [FARGATE]
+        ClusterName: ${self:service}-${self:provider.stage}-cluster0
+        ClusterSettings:
+          - Name: containerInsights
+            Value: enabled
+        Tags:
+          - Key: Name
+            Value: ${self:service}-${self:provider.stage}-vpc0
