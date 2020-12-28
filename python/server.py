@@ -12,6 +12,12 @@ def home():
     url = "/message?name=Apollo"
     return "Try GET <a href=\"{u}\">{u}</a>".format(u=url)
 
+
+@app.route('/version', methods=['GET'])
+def version():
+    # Not the same as git tag version
+    return "2"
+
 @app.route('/message', methods=['GET'])
 def message():
     name = flask.request.args.get('name')
