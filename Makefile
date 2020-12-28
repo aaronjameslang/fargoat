@@ -6,4 +6,10 @@ run:
 	# -it is needed for ctrl-c
 
 login:
-	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 268897920616.dkr.ecr.us-east-1.amazonaws.com
+	aws ecr get-login-password --region ca-central-1 | docker login --username AWS --password-stdin 268897920616.dkr.ecr.ca-central-1.amazonaws.com
+
+docker-push:
+	docker tag fargoat:latest \
+		268897920616.dkr.ecr.ca-central-1.amazonaws.com/fargoat-repo0:latest
+	docker push \
+		268897920616.dkr.ecr.ca-central-1.amazonaws.com/fargoat-repo0:latest
