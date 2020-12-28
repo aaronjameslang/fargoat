@@ -35,9 +35,8 @@ resources:
       Properties:
         ImageScanningConfiguration: { scanOnPush: true }
         ImageTagMutability: IMMUTABLE
-        RepositoryName: ${self:service}-${self:provider.stage}-repo0
+        RepositoryName: ${self:service}-${self:provider.stage}
         # RepositoryPolicyText: # Needed for non-root push image
         Tags:
           - Key: project
             Value: ${self:service}
-
