@@ -83,3 +83,19 @@ resources:
         Tags:
           - Key: project
             Value: ${self:service}
+    routeTable0:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref vpc0
+    route0:
+      Type: AWS::EC2::Route
+      # DependsOn: igwAttachment0
+      Properties:
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId: !Ref igw0
+        RouteTableId: !Ref routeTable0
+    subnetRouteTableAssociation0:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        RouteTableId: !Ref routeTable0
+        SubnetId: !Ref subnet0
