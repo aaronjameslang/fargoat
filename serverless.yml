@@ -19,6 +19,30 @@ resources:
             Value: ${self:service}-${self:provider.stage}-vpc0
           - Key: project
             Value: ${self:service}
+    subnet0:
+      Type: AWS::EC2::Subnet
+      Properties:
+        CidrBlock: 192.168.0.0/24
+        MapPublicIpOnLaunch: true # Required for outgoing HTTP?
+        Tags:
+          - Key: Name
+            Value: ${self:service}-${self:provider.stage}-subnet0
+          - Key: project
+            Value: ${self:service}
+        VpcId: !Ref vpc0
+    igw0:
+      Type: AWS::EC2::InternetGateway
+      Properties:
+        Tags:
+          - Key: Name
+            Value: ${self:service}-${self:provider.stage}-igw0
+          - Key: project
+            Value: ${self:service}
+    igwAttachment0:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        VpcId: !Ref vpc0
+        InternetGatewayId: !Ref igw0
     cluster0:
       Type: AWS::ECS::Cluster
       Properties:
