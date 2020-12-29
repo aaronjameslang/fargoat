@@ -23,4 +23,4 @@ def message():
     name = flask.request.args.get('name')
     return func.get_message(name)
 
-app.run(host='0.0.0.0')
+app.run(host='0.0.0.0', port=80)
