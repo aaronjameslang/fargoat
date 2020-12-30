@@ -8,7 +8,7 @@ build-image:
 	./scripts/build-image.sh
 
 deploy-sls:
-	./scripts/deploy-sls.sh
+	./scripts/serverless.sh deploy
 
 install:
 	./scripts/install.sh

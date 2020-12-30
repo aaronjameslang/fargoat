@@ -110,3 +110,6 @@ resources:
       Properties:
         RouteTableId: !Ref routeTable0
         SubnetId: !Ref subnet0
+  Outputs:
+    subnet0id:
+      Value: !Ref subnet0
