@@ -4,8 +4,6 @@ import sys
 import func
 import requests
 
-print sys.argv
-
 url = sys.argv[1]
 name = sys.argv[2]
 

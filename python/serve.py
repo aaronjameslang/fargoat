@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-# pip install flask
 import flask
 import func
 
@@ -15,8 +14,7 @@ def home():
 
 @app.route('/version', methods=['GET'])
 def version():
-    # Not the same as git tag version
-    return "2"
+    return "B"
 
 @app.route('/message', methods=['GET'])
 def message():
