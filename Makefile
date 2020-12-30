@@ -10,6 +10,9 @@ build-image:
 deploy-sls:
 	./scripts/deploy-sls.sh
 
+install:
+	./scripts/install.sh
+
 push-image:
 	./scripts/push-image.sh
 
