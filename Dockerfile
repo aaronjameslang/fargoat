@@ -1,6 +1,6 @@
 FROM python:2
 
 RUN pip install flask
-CMD ./server.py
+CMD false
 
 COPY ./python ./
