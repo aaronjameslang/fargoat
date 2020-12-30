@@ -11,6 +11,10 @@ run-server:
 run-cli:
 	docker run --rm fargoat ./cli.py ${USER}
 
+run-wh:
+	# . ./.env && docker run --rm fargoat ./webhook.py ${WH_URL} ${USER}
+	. ./.env && docker run --rm fargoat ./webhook.py https://webhook.site/24a59289-4777-404b-9adb-92a5ad640194 ${USER}
+
 push-image:
 	./scripts/push-image.sh
 

@@ -69,11 +69,17 @@ resources:
       Properties:
         ContainerDefinitions:
           - Image: ${env:ECR_IMG_URI}
+            LogConfiguration:
+              LogDriver: 'awslogs'
+              Options:
+                awslogs-group:  ${self:service}-${self:provider.stage}
+                awslogs-region: ${env:REGION}
+                awslogs-stream-prefix: ${self:service}-${self:provider.stage}
             Name: container0
             PortMappings:
-              -  ContainerPort: 5000
-                 HostPort: 5000
-                 Protocol: TCP
+              - ContainerPort: 5000
+                HostPort: 5000
+                Protocol: TCP
         Cpu: 256
         # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html#create-task-execution-role
         ExecutionRoleArn: arn:aws:iam::${env:ACCOUNT_ID}:role/ecsTaskExecutionRole
@@ -84,6 +90,10 @@ resources:
         Tags:
           - Key: project
             Value: ${self:service}
+    logGroup0:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: ${self:service}-${self:provider.stage}
     routeTable0:
       Type: AWS::EC2::RouteTable
       Properties:
