@@ -77,6 +77,7 @@ resources:
         Cpu: 256
         # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html#create-task-execution-role
         ExecutionRoleArn: arn:aws:iam::${env:ACCOUNT_ID}:role/ecsTaskExecutionRole
+        Family: ${self:service}-${self:provider.stage}-taskDefinition0
         Memory: 512
         NetworkMode: awsvpc
         RequiresCompatibilities: [FARGATE]
