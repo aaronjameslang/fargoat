@@ -3,10 +3,10 @@
 # Run as
 # $PWD/app.py
 # or
-# sls wsgi serve
+# sls wsgi serve -p $PORT
 
 # Test over HTTP
-# curl --data name=$USER localhost:5000/report
+# curl --data name=$USER localhost:$PORT/report
 
 import dotenv
 import faker

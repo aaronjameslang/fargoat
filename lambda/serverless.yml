@@ -7,7 +7,9 @@ provider:
   region: ${env:REGION}
 
 plugins:
+  - serverless-dotenv-plugin
   - serverless-wsgi
+
 custom:
   wsgi:
     app: app.app
@@ -15,9 +17,9 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
 
-functions: # Your "Functions"
+functions:
   usersCreate:
     handler: wsgi_handler.handler
-    events: # The "Events" that trigger this function
+    events:
       - http: ANY /
       - http: 'ANY {proxy+}'
