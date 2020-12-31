@@ -1,7 +1,12 @@
 #! /usr/bin/env python
 
+# Run as
+# $PWD/app.py
+# or
+# sls wsgi serve
+
 # Test over HTTP
-# curl -X report?name=$USER
+# curl --data name=$USER localhost:5000/report
 
 import dotenv
 import faker
@@ -44,7 +49,7 @@ def get_lucky_number(name):
 
 @app.route('/report', methods=['POST'])
 def report():
-    name = flask.request.args.get('name')
+    name = flask.request.form.get('name')
     fake=faker.Faker()
     faker.Faker.seed(name)
     random.seed(name)
