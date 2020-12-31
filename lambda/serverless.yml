@@ -1,0 +1,23 @@
+service: fargoat-lambda
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${env:STAGE}
+  region: ${env:REGION}
+
+plugins:
+  - serverless-wsgi
+custom:
+  wsgi:
+    app: app.app
+    packRequirements: false
+  pythonRequirements:
+    dockerizePip: non-linux
+
+functions: # Your "Functions"
+  usersCreate:
+    handler: wsgi.handler
+    events: # The "Events" that trigger this function
+      - http: ANY /
+      - http: 'ANY {proxy+}'

@@ -1,0 +1,9 @@
+{
+  "name": "fargoat-lambda",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-wsgi": "^1.7.6"
+  }
+}
