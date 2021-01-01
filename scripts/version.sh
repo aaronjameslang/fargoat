@@ -3,7 +3,7 @@ set -eu
 
 . ./.env
 
-cache_file=scripts/version.cache
+cache_file=scripts/version.latest
 
 if test "${1-}" = --new
 then
