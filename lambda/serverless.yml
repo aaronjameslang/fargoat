@@ -1,15 +1,18 @@
-service: fargoat-lambda
+useDotenv: true
+service: ${env:PROJECT_NAME}-lambda
 
 provider:
   name: aws
-  runtime: python3.8
+  runtime: python3.7
   stage: ${env:STAGE}
   region: ${env:REGION}
+  apiGateway:
+    shouldStartNameWithService: true
 
 plugins:
   - serverless-dotenv-plugin
+  - serverless-python-requirements
   - serverless-wsgi
-
 custom:
   wsgi:
     app: app.app

@@ -64,7 +64,7 @@ def report():
             ip=fake.ipv4_private(),
             x=random.normalvariate(800, 300)
         )
-    print report_tsv # log on server
+    print(report_tsv) # log on server
     url=os.environ['WEBHOOK_URL']
     requests.post(url, data = report_tsv) # send to client
     return 'Report will be submitted to '+url+'\n'
