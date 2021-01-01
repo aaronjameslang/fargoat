@@ -1,39 +1,17 @@
 #! /usr/bin/env python
 
 import dotenv
-import flask
+import faker
 import math
 import os
 import random
+import requests
 import socket
+import sys
 
 dotenv.load_dotenv()
 
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
-
-@app.route('/', methods=['GET'])
-def home():
-    url = "/message?name=Apollo"
-    return "Try GET <a href=\"{u}\">{u}</a>\n".format(u=url)
-
-@app.route('/version', methods=['GET'])
-def version():
-    return "B"
-
-@app.route('/message', methods=['GET'])
-def message():
-    name = flask.request.args.get('name')
-    t = "Hello {name}! I'm {host}. Your lucky number is: {n}\n"
-    return t.format(
-        name=name,
-        host=socket.gethostname(),
-        n=get_lucky_number(name)
-    )
-
-@app.route('/report', methods=['POST'])
-def report():
-    name = flask.request.form.get('name')
+def report(name):
     fake=faker.Faker()
     faker.Faker.seed(name)
     random.seed(name)
@@ -46,7 +24,7 @@ def report():
         report_tsv+='\n{n}\t{ip}\t{x}'.format(
             n=fake.name(),
             ip=fake.ipv4_private(),
-            x=random.normalvariate(800, 300)
+            x=math.trunc(random.normalvariate(800, 300))
         )
     print(report_tsv) # log on server
     url=os.environ['WEBHOOK_URL']
@@ -60,5 +38,4 @@ def get_lucky_number(name):
     return n
 
 if __name__ == "__main__":
-    port=os.environ['PORT']
-    app.run(host='0.0.0.0', port=port)
+    report(sys.argv[1])

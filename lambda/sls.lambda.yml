@@ -13,6 +13,7 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-python-requirements
   - serverless-wsgi
+
 custom:
   wsgi:
     app: app.app
