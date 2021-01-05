@@ -3,3 +3,4 @@
 .serverless
 env
 node_modules
+version.latest
