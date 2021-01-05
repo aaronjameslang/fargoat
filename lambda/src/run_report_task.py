@@ -19,13 +19,14 @@ def run_report_task(name):
         pn=os.environ['PROJECT_NAME'],
         st=os.environ['STAGE'],
     )
+    subnetId = os.environ['SUBNET_ID_' + os.environ['STAGE'].upper()]
 
     response = client.run_task(
         cluster=cluster,
         launchType='FARGATE',
         networkConfiguration={
             'awsvpcConfiguration': {
-                'subnets': [os.environ['SUBNET_ID']],
+                'subnets': [subnetId],
                 'assignPublicIp': 'ENABLED'
             }
         },

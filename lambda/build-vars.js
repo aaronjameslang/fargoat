@@ -13,6 +13,8 @@
 require('dotenv').config()
 const aws = require('aws-sdk')
 const fs = require('fs').promises
+const { exec } = require('child_process')
+const { promisify } = require('util')
 
 const PROJECT_NAME = process.env.PROJECT_NAME
 if (!PROJECT_NAME) throw Error('No PROJECT_NAME')
@@ -29,14 +31,20 @@ exports.ecrUri = async function () {
     return `${id}.dkr.ecr.${REGION}.amazonaws.com`
 }()
 
-exports.version = fs.readFile('./version.latest', 'UTF-8')
-    .then(v => v.trim())
+exports.subnetId = async function () {
+    const cmd = "serverless info -v -c vpc-serverless.yml | grep -Po '(?<=Subnet0Id: ).*$'"
+    const execp = promisify(exec)
+    return execp(cmd).then(({ stdout }) => stdout.trim())
+}()
 
 exports.ecrImgUri = async function () {
     const ecrUri = await exports.ecrUri
     const version = await exports.version
     return `${ecrUri}/${PROJECT_NAME}-ecs-${STAGE}:${version}`
 }()
+
+exports.version = fs.readFile('./version.latest', 'UTF-8')
+    .then(v => v.trim())
 
 if (require.main === module) {
     const key = process.argv[2]

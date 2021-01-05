@@ -43,6 +43,11 @@ test-image-report:
 
 deploy-vpc:
 	serverless deploy -c vpc-serverless.yml
+	( \
+		echo -n SUBNET_ID_${STAGE}= | tr a-z A-Z ; \
+		serverless info -v -c vpc-serverless.yml | \
+		grep -Po '(?<=Subnet0Id: ).*$$' \
+	) >> .env
 
 deploy-ecs:
 	serverless deploy -c ecs-serverless.yml
@@ -52,3 +57,6 @@ push-image:
 	docker login --username AWS --password-stdin $(shell ./build-vars.js ecrUri)
 	docker tag ${PROJECT_NAME}:$(shell ./version.sh) $(shell ./build-vars.js ecrImgUri)
 	docker push $(shell ./build-vars.js ecrImgUri)
+
+test-ecs-report:
+	./src/run_report_task.py ${USER}

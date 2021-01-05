@@ -16,7 +16,7 @@ plugins:
 
 custom:
   wsgi:
-    app: app.app
+    app: src/app.app
     packRequirements: false
   pythonRequirements:
     dockerizePip: non-linux
@@ -27,4 +27,3 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
-# ${output:my-service.var-key}
