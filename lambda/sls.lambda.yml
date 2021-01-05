@@ -2,12 +2,26 @@ service: ${env:PROJECT_NAME}-lambda
 useDotenv: true
 
 provider:
+  apiGateway: { shouldStartNameWithService: true }
   name: aws
-  runtime: python3.7
-  stage: ${env:STAGE}
   region: ${env:REGION}
-  apiGateway:
-    shouldStartNameWithService: true
+  runtime: python3.7
+  stage: ${env:STAGE,dev}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ecs:RunTask
+      Resource: arn:aws:ecs:ca-central-1:268897920616:task-definition/fargoat-ecs-dev-taskDefinition0
+        # Fn::Join:
+        #     - ''
+        #     - - arn:aws:ecs:${self:provider.region}
+        #       - :${file(./build-vars.json):accountId} # Why does js not work here?
+        #       - :task-definition/${env:PROJECT_NAME}
+        #       - -ecs-${${self:provider.region}-taskDefinition0
+    - Effect: Allow
+      Action:
+        - iam:PassRole
+      Resource: arn:aws:iam::268897920616:role/ecsTaskExecutionRole
 
 plugins:
   - serverless-dotenv-plugin
@@ -22,8 +36,17 @@ custom:
     dockerizePip: non-linux
 
 functions:
-  usersCreate:
+  function0:
     handler: wsgi_handler.handler
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+
+outputs:
+    OA:
+      Fn::Join:
+        - ''
+        - - arn:aws:ecs:${self:provider.region}
+          - :${file(./build-vars.json):accountId} # Why does js not work here?
+          - :task-definition/${env:PROJECT_NAME}
+          - -ecs-${${self:provider.region}-taskDefinition0

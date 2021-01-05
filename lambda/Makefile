@@ -31,7 +31,7 @@ start-sls-wsgi:
 # Next deploy the app to the cloud,
 #   the output will tell you the cloud endpoint, which you can call
 deploy-lambda:
-	serverless deploy -c sls.lambda.yml
+	serverless deploy -v -c sls.lambda.yml
 
 # Now we have split out the report, let's build the docker image
 build-image:
@@ -42,7 +42,7 @@ test-image-report:
 	docker run --rm ${PROJECT_NAME}:$(shell ./version.sh) ./app.report.py ${USER}
 
 deploy-vpc:
-	serverless deploy -c vpc-serverless.yml
+	serverless deploy -v -c vpc-serverless.yml
 	( \
 		echo -n SUBNET_ID_${STAGE}= | tr a-z A-Z ; \
 		serverless info -v -c vpc-serverless.yml | \
@@ -50,7 +50,7 @@ deploy-vpc:
 	) >> .env
 
 deploy-ecs:
-	serverless deploy -c ecs-serverless.yml
+	serverless deploy -v -c ecs-serverless.yml
 
 push-image:
 	aws ecr get-login-password --region ${REGION} | \
@@ -62,3 +62,8 @@ test-ecs-report:
 	./src/run_report_task.py ${USER}
 
 # Now try start sls wsgi and test local report
+
+test-lambda-message:
+	curl https://dfcq2qbgo5.execute-api.ca-central-1.amazonaws.com/dev/message?name=${USER}
+test-lambda-report:
+	curl --data name=${USER} https://dfcq2qbgo5.execute-api.ca-central-1.amazonaws.com/dev/report

@@ -51,8 +51,17 @@ if (require.main === module) {
     if (key) {
         exports[key].then(console.log)
     } else {
+        const cache = {}
         for (let k in exports) {
-            exports[k].then(v => console.log({ [k]: v }))
+            exports[k].then(v => {
+                console.log({ [k]: v })
+                cache[k] = v
+            })
         }
+        Promise.all(Object.values(exports)).then(() => {
+            // Write to file
+            // Hack because serverless is buggy rading js, but can read json fine
+            fs.writeFile('build-vars.json', JSON.stringify(cache, null, 2))
+        })
     }
 }
