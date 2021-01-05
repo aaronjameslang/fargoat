@@ -6,6 +6,7 @@ import math
 import os
 import random
 import socket
+import run_report_task
 
 dotenv.load_dotenv()
 
@@ -38,24 +39,9 @@ def message():
 @app.route('/report', methods=['POST'])
 def report():
     name = flask.request.form.get('name')
-    fake = faker.Faker()
-    faker.Faker.seed(name)
-    random.seed(name)
-    report_tsv = 'You ({n})\t{ip}\t{x}'.format(
-        n=name,
-        ip=socket.gethostbyname(socket.gethostname()),
-        x=get_lucky_number(name)
-    )
-    for _ in range(10):
-        report_tsv += '\n{n}\t{ip}\t{x}'.format(
-            n=fake.name(),
-            ip=fake.ipv4_private(),
-            x=random.normalvariate(800, 300)
-        )
-    print(report_tsv)  # log on server
-    url = os.environ['WEBHOOK_URL']
-    requests.post(url, data=report_tsv)  # send to client
-    return 'Report will be submitted to '+url+'\n'
+    response = run_report_task.run_report_task(name)
+    print(response)  # lambda logs
+    return '202 Accepted\n'  # http response
 
 
 def get_lucky_number(name):

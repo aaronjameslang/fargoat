@@ -60,3 +60,5 @@ push-image:
 
 test-ecs-report:
 	./src/run_report_task.py ${USER}
+
+# Now try start sls wsgi and test local report
