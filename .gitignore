@@ -1,3 +1,5 @@
 *.cache
 *.pyc
 .serverless
+env
+node_modules
