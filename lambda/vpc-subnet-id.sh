@@ -1,7 +1,9 @@
 #! /bin/sh
 set -eu
 
-key=SUBNET_ID
+. ./.env
+
+key=SUBNET_ID_$(echo $STAGE | tr a-z A-Z)
 
 if grep -q $key .env
 then

@@ -33,7 +33,7 @@ deploy-lambda:
 
 # Now we have split out the report, let's build the docker image
 build-image:
-	docker build . -t ${PROJECT_NAME}
+	docker build . -t ${PROJECT_NAME}:$(shell ./version.sh)
 
 # We can call the docker image to test it
 test-image-report:

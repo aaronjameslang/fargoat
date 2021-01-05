@@ -6,4 +6,4 @@ COPY .env ./
 COPY requirements.* ./
 RUN pip install -r requirements.freeze
 
-COPY ./app.report.py ./
+COPY ./src/app.report.py ./

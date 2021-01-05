@@ -3,8 +3,8 @@ useDotenv: true
 
 provider:
   name: aws
-  stage: ${env:STAGE}
   region: ${env:REGION}
+  stage: ${env:STAGE,dev}
 
 resources:
   Resources:
