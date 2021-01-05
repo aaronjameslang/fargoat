@@ -35,7 +35,7 @@ exports.version = fs.readFile('./version.latest', 'UTF-8')
 exports.ecrImgUri = async function () {
     const ecrUri = await exports.ecrUri
     const version = await exports.version
-    return `${ecrUri}/${PROJECT_NAME}-${STAGE}:${version}`
+    return `${ecrUri}/${PROJECT_NAME}-ecs-${STAGE}:${version}`
 }()
 
 if (require.main === module) {

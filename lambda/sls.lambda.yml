@@ -1,5 +1,5 @@
-useDotenv: true
 service: ${env:PROJECT_NAME}-lambda
+useDotenv: true
 
 provider:
   name: aws
@@ -27,3 +27,4 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+# ${output:my-service.var-key}

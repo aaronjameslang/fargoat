@@ -6,7 +6,9 @@ default:
 
 # First install node and python deps
 install:
-	./install.sh
+	npm install
+	python3.7 -m venv env
+	. env/bin/activate && pip install -r requirements.txt
 
 # Now be sure to activate the python env:
 # . ./env/bin/activate
@@ -37,4 +39,16 @@ build-image:
 
 # We can call the docker image to test it
 test-image-report:
-	docker run --rm ${PROJECT_NAME} ./app.report.py ${USER}
+	docker run --rm ${PROJECT_NAME}:$(shell ./version.sh) ./app.report.py ${USER}
+
+deploy-vpc:
+	serverless deploy -c vpc-serverless.yml
+
+deploy-ecs:
+	serverless deploy -c ecs-serverless.yml
+
+push-image:
+	aws ecr get-login-password --region ${REGION} | \
+	docker login --username AWS --password-stdin $(shell ./build-vars.js ecrUri)
+	docker tag ${PROJECT_NAME}:$(shell ./version.sh) $(shell ./build-vars.js ecrImgUri)
+	docker push $(shell ./build-vars.js ecrImgUri)
