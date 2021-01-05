@@ -11,17 +11,22 @@ provider:
     - Effect: Allow
       Action:
         - ecs:RunTask
-      Resource: arn:aws:ecs:ca-central-1:268897920616:task-definition/fargoat-ecs-dev-taskDefinition0
-        # Fn::Join:
-        #     - ''
-        #     - - arn:aws:ecs:${self:provider.region}
-        #       - :${file(./build-vars.json):accountId} # Why does js not work here?
-        #       - :task-definition/${env:PROJECT_NAME}
-        #       - -ecs-${${self:provider.region}-taskDefinition0
+      Resource:
+        Fn::Join:
+            - ''
+            - - arn:aws:ecs:${self:provider.region}
+              - :${file(./build-vars.json):accountId} # Why does js not work here?
+              - :task-definition/${env:PROJECT_NAME}-
+              - ecs-${self:provider.stage}-taskDefinition0
     - Effect: Allow
       Action:
         - iam:PassRole
-      Resource: arn:aws:iam::268897920616:role/ecsTaskExecutionRole
+      Resource:
+        Fn::Join:
+            - ''
+            - - 'arn:aws:iam:'
+              - :${file(./build-vars.json):accountId} # Why does js not work here?
+              - :role/ecsTaskExecutionRole
 
 plugins:
   - serverless-dotenv-plugin

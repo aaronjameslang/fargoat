@@ -61,7 +61,7 @@ if (require.main === module) {
         Promise.all(Object.values(exports)).then(() => {
             // Write to file
             // Hack because serverless is buggy rading js, but can read json fine
-            fs.writeFile('build-vars.json', JSON.stringify(cache, null, 2))
+            fs.writeFile('build-vars.json', JSON.stringify(cache, null, 2) + '\n')
         })
     }
 }
